@@ -7,10 +7,12 @@ ASocket::ASocket( void )
 
 ASocket::ASocket(int sockType, int family, int flags, char *port)
 {
-	_socketID = callSocket(sockType, family, flags, port);
+	_ai = NULL;
+	_socketID = callSocket(sockType, family, flags, port, &_ai);
 	if (_socketID == -1)
 	{
 		std::cerr << "failed to get a socket" << std::endl;
+		exit(1);
 	}
 }
 
@@ -38,4 +40,9 @@ ASocket::~ASocket( void )
 int	ASocket::getSocketID( void )
 {
 	return _socketID;
+}
+
+struct addrinfo*	ASocket::getAddrInfo( void )
+{
+	return _ai;
 }

@@ -1,19 +1,25 @@
-#include "BindsSocket.hpp"
+#include "BindSocket.hpp"
 
-BindsSocket::BindsSocket( void )
+BindSocket::BindSocket( void )
 {
-	std::cout << "BindsSocket default constructor called." << std::endl;
+	std::cout << "BindSocket default constructor called." << std::endl;
 }
 
-BindsSocket::BindsSocket( const BindsSocket & src )
+BindSocket::BindSocket(int sockType, int family, int flags, char *port) : ASocket(sockType, family, flags, port)
 {
-	std::cout << "BindsSocket copy constructor called." << std::endl;
+	socketInit();
+	std::cout << "BindSocket constructor called." << std::endl;
+}
+
+BindSocket::BindSocket( const BindSocket & src ) : ASocket()
+{
+	std::cout << "BindSocket copy constructor called." << std::endl;
 	*this = src;
 }
 
-BindsSocket&	BindsSocket::operator = ( const BindsSocket & rhs )
+BindSocket&	BindSocket::operator = ( const BindSocket & rhs )
 {
-	std::cout << "BindsSocket copy assignment operator called." << std::endl;
+	std::cout << "BindSocket copy assignment operator called." << std::endl;
 	if (this != &rhs)
 	{
 	// insert members copy here
@@ -21,7 +27,23 @@ BindsSocket&	BindsSocket::operator = ( const BindsSocket & rhs )
 	return *this;
 }
 
-BindsSocket::~BindsSocket( void )
+BindSocket::~BindSocket( void )
 {
-	std::cout << "BindsSocket destructor called." << std::endl;
+	std::cout << "BindSocket destructor called." << std::endl;
+}
+
+void BindSocket::socketInit( void )
+{
+	int	yes = 1;
+
+	setsockopt(getSocketID(), SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
+	if (bind(getSocketID(), getAddrInfo()->ai_addr, getAddrInfo()->ai_addrlen) < 0)
+	{
+		std::cout << getAddrInfo() << std::endl;
+		close(getSocketID());
+		std::cerr << "socket failed to bind" << std::endl;
+		freeaddrinfo(getAddrInfo());
+		exit(1);
+	}
+		freeaddrinfo(getAddrInfo());
 }

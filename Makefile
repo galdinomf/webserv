@@ -1,6 +1,7 @@
 SRCS = main.cpp\
 	   ASocket.cpp\
 	   callSocket.cpp\
+	   BindSocket.cpp\
 
 OBJ_DIR = obj/
 SRC_DIR = src/
