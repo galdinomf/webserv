@@ -37,12 +37,12 @@ ASocket::~ASocket( void )
 	std::cout << "ASocket destructor called." << std::endl;
 }
 
-int	ASocket::getSocketID( void )
+int	ASocket::getSocketID( void ) const
 {
 	return _socketID;
 }
 
-struct addrinfo*	ASocket::getAddrInfo( void )
+struct addrinfo*	ASocket::getAddrInfo( void ) const
 {
 	return _ai;
 }

@@ -18,11 +18,12 @@ class ASocket
 
 		virtual void	socketInit( void ) = 0;
 
-		int					getSocketID( void );
-		struct addrinfo*	getAddrInfo( void );
+		int					getSocketID( void ) const;
+		struct addrinfo*	getAddrInfo( void ) const;
 
-	private:
+	protected:
 		int					_socketID;
+	private:
     	struct addrinfo*	_ai;
 };
 

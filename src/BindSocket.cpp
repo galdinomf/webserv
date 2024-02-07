@@ -22,7 +22,7 @@ BindSocket&	BindSocket::operator = ( const BindSocket & rhs )
 	std::cout << "BindSocket copy assignment operator called." << std::endl;
 	if (this != &rhs)
 	{
-	// insert members copy here
+		this->_socketID = rhs.getSocketID();
 	}
 	return *this;
 }
