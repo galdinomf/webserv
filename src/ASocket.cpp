@@ -2,7 +2,7 @@
 
 ASocket::ASocket( void )
 {
-	std::cout << "ASocket default constructor called." << std::endl;
+	// std::cout << "ASocket default constructor called." << std::endl;
 }
 
 ASocket::ASocket(int sockType, int family, int flags, char *port)
@@ -18,13 +18,13 @@ ASocket::ASocket(int sockType, int family, int flags, char *port)
 
 ASocket::ASocket( const ASocket & src )
 {
-	std::cout << "ASocket copy constructor called." << std::endl;
+	// std::cout << "ASocket copy constructor called." << std::endl;
 	*this = src;
 }
 
 ASocket&	ASocket::operator = ( const ASocket & rhs )
 {
-	std::cout << "ASocket copy assignment operator called." << std::endl;
+	// std::cout << "ASocket copy assignment operator called." << std::endl;
 	if (this != &rhs)
 	{
 	// insert members copy here
@@ -34,7 +34,7 @@ ASocket&	ASocket::operator = ( const ASocket & rhs )
 
 ASocket::~ASocket( void )
 {
-	std::cout << "ASocket destructor called." << std::endl;
+	// std::cout << "ASocket destructor called." << std::endl;
 }
 
 int	ASocket::getSocketID( void ) const

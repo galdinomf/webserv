@@ -1,5 +1,5 @@
 #include <iostream>
-#include "BindSocket.hpp"
+#include "HTTPServer.hpp"
 
 int	main( void )
 {
@@ -10,5 +10,10 @@ int	main( void )
 
 	std::cout << "bs.getSocketID() = " << bs.getSocketID() <<  std::endl;
 	std::cout << "bs2.getSocketID() = " << bs2.getSocketID() <<  std::endl;
+
+	char port2[] = "7000";
+	HTTPServer server(port2);
+	std::cout << "server.getBindSocket().getSocketID() = " << server.getBindSocket().getSocketID() <<  std::endl;
+
 	return 0;
 }

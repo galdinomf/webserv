@@ -2,6 +2,7 @@ SRCS = main.cpp\
 	   ASocket.cpp\
 	   callSocket.cpp\
 	   BindSocket.cpp\
+	   HTTPServer.cpp\
 
 OBJ_DIR = obj/
 SRC_DIR = src/
