@@ -3,6 +3,7 @@ SRCS = main.cpp\
 	   callSocket.cpp\
 	   BindSocket.cpp\
 	   HTTPServer.cpp\
+	   HTTPServer_start.cpp\
 
 OBJ_DIR = obj/
 SRC_DIR = src/

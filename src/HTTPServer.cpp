@@ -5,9 +5,10 @@ HTTPServer::HTTPServer( void )
 	// std::cout << "HTTPServer default constructor called." << std::endl;
 }
 
-HTTPServer::HTTPServer( char * port )
+HTTPServer::HTTPServer( char * port, int backLog )
 {
 	_socket = BindSocket( SOCK_STREAM, AF_UNSPEC, AI_PASSIVE, port);
+	_backLog = backLog;
 }
 
 HTTPServer::HTTPServer( const HTTPServer & src )
@@ -34,4 +35,9 @@ HTTPServer::~HTTPServer( void )
 BindSocket HTTPServer::getBindSocket( void ) const
 {
 	return _socket;
+}
+
+int HTTPServer::getBackLog( void ) const
+{
+	return _backLog;
 }
