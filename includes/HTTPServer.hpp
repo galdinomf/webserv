@@ -11,16 +11,22 @@ class HTTPServer
 		HTTPServer& operator = ( const HTTPServer & );
 		~HTTPServer( void );
 
-        HTTPServer( char * port, int backLog );
+                HTTPServer( char * port, int backLog );
 
-        int       start();
+                int       start();
 
-        BindSocket getBindSocket( void ) const;
-        int        getBackLog( void ) const;
+                BindSocket getBindSocket( void ) const;
+                int        getBackLog( void ) const;
 
 	private:
-        BindSocket  _socket;
-        int         _backLog;
+                BindSocket  _socket;
+                int         _backLog;
+                char        _dataBuffer[256];
+
+                void        _acceptNewConnection(fd_set *master, int *fdmax);
+                void	    _closeAndClearSocket(int i, int nbytes, fd_set *master);
+                void	    _handleDataReceived(fd_set *master, int nbytes, int fdmax, int i);
+
 };
 
 #endif
