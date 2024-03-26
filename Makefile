@@ -4,6 +4,8 @@ SRCS = main.cpp\
 	   BindSocket.cpp\
 	   HTTPServer.cpp\
 	   HTTPServer_start.cpp\
+	   HTTPRequest.cpp\
+	   parse_request.cpp\
 
 OBJ_DIR = obj/
 SRC_DIR = src/

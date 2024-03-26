@@ -32,18 +32,48 @@ void	HTTPServer::_closeAndClearSocket(int i, int nbytes, fd_set *master)
 	FD_CLR(i, master);
 }
 
-void	HTTPServer::_handleDataReceived(fd_set *master, int nbytes, int fdmax, int i)
+void	HTTPServer::_handleDataReceived(fd_set *master, int *nbytes, int fdmax, int i)
 {
 	int j;
 
 	// this will become the handler function
+
+	std::string	requestAsString(_dataBuffer);
+
+	while	((*nbytes = recv(i, _dataBuffer, sizeof(_dataBuffer), 0)) > 0)
+	{
+		requestAsString.append(_dataBuffer, *nbytes);        
+		if ((unsigned int) *nbytes < sizeof(_dataBuffer))
+            break;
+	}
+	for (j = 0; (unsigned int) j < sizeof(_dataBuffer); j++)
+		_dataBuffer[j] = 0;
+
+	if (*nbytes == -1)
+	{
+		_closeAndClearSocket(i, *nbytes, master);
+		return;
+	}
+
+
+	HTTPRequest	request(parse_request(std::string(requestAsString)));
+
+    std::cout << "method = " << request.getMethod() << std::endl;
+    std::cout << "requestURI = " << request.getRequestURI() << std::endl;
+    std::cout << "version = " << request.getHTTPVersion() << std::endl;
+    std::map<std::string, std::string>::iterator it;
+    std::map<std::string, std::string> headers = request.getHeaders();
+    for (it = headers.begin(); it != headers.end(); ++it)
+        std::cout << it->first << ": " << it->second << std::endl;
+    std::cout << "body = " << request.getBody() << std::endl;
+
 		//send to everyone!
 	for (j = 0; j <= fdmax; j++)
 	{
 		if (FD_ISSET(j, master))
 		{
 			if (j != _socket.getSocketID() && j != i)
-				if (send(j, _dataBuffer, nbytes, 0) == -1)
+				if (send(j, _dataBuffer, *nbytes, 0) == -1)
 					std::cerr << "error sendinfg data: " << strerror(errno) << std::endl;
 		}
 	}
@@ -73,9 +103,6 @@ int	HTTPServer::start()
 
 	while (true)
 	{
-		std::cout << "strncmp(buf, exit, 4) = " << strncmp(_dataBuffer, "exit", 4) << std::endl;
-		if (strncmp(_dataBuffer, "exit", 4) == 0)
-			break;
 		read_fds = master;
 		if (select(fdmax + 1, &read_fds, NULL, NULL, NULL) == -1)
 		{
@@ -95,7 +122,7 @@ int	HTTPServer::start()
 					if	((nbytes = recv(i, _dataBuffer, sizeof(_dataBuffer), 0)) <= 0) // error or connection closed
 						_closeAndClearSocket(i, nbytes, &master);
 					else // got some data from a client
-						_handleDataReceived(&master, nbytes, fdmax, i);
+						_handleDataReceived(&master, &nbytes, fdmax, i);
 				}
 			}
 		}

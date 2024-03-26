@@ -3,6 +3,8 @@
 
 # include "BindSocket.hpp"
 
+# include "HTTPRequest.hpp"
+
 class HTTPServer
 {
 	public:
@@ -21,11 +23,11 @@ class HTTPServer
 	private:
                 BindSocket  _socket;
                 int         _backLog;
-                char        _dataBuffer[256];
+                char        _dataBuffer[512];
 
                 void        _acceptNewConnection(fd_set *master, int *fdmax);
                 void	    _closeAndClearSocket(int i, int nbytes, fd_set *master);
-                void	    _handleDataReceived(fd_set *master, int nbytes, int fdmax, int i);
+                void	    _handleDataReceived(fd_set *master, int *nbytes, int fdmax, int i);
 
 };
 
