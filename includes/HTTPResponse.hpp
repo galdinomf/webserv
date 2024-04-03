@@ -27,7 +27,11 @@ class HTTPResponse
                 std::string                         _httpVersion;
                 std::map<std::string, std::string>  _headers;
                 std::string                         _body;
+
+                static std::map<std::string, std::string> codeMessagesInit ( void );
+                static std::map<std::string, std::string> code_messages;
 };
+
 
 std::string     responseToString(HTTPResponse& response);
 

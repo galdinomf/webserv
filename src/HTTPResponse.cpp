@@ -1,5 +1,4 @@
 #include "HTTPResponse.hpp"
-
 HTTPResponse::HTTPResponse( void )
 {
 	std::cout << "HTTPResponse default constructor called." << std::endl;
@@ -8,6 +7,8 @@ HTTPResponse::HTTPResponse( void )
 HTTPResponse::HTTPResponse( std::string code )
 {
 	_code = code;
+	_httpVersion = "HTTP/1.1";
+	_text = code_messages[code];
 	std::cout << "HTTPResponse default constructor called." << std::endl;
 }
 
@@ -56,3 +57,14 @@ std::map<std::string, std::string> HTTPResponse::getHeaders( void )
 {
     return _headers;
 }
+
+std::map<std::string, std::string> HTTPResponse::code_messages = HTTPResponse::codeMessagesInit();
+
+std::map<std::string, std::string> HTTPResponse::codeMessagesInit( void )
+{
+	std::map<std::string, std::string> m;
+	m["200"] = "OK";
+	//include more status codes and messages here
+	return m;
+}
+
