@@ -2,7 +2,7 @@
 # define HTTPSERVER_HPP
 
 # include "BindSocket.hpp"
-
+# include "HTTPResponse.hpp"
 # include "HTTPRequest.hpp"
 
 class HTTPServer
@@ -27,7 +27,7 @@ class HTTPServer
 
                 void        _acceptNewConnection(fd_set *master, int *fdmax);
                 void	    _closeAndClearSocket(int i, int nbytes, fd_set *master);
-                void	    _handleDataReceived(fd_set *master, int *nbytes, int fdmax, int i);
+                void	    _handleDataReceived(fd_set *master, int *nbytes, int i);
 
 };
 

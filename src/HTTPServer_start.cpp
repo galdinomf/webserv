@@ -35,7 +35,7 @@ void	HTTPServer::_closeAndClearSocket(int i, int nbytes, fd_set *master)
 	FD_CLR(i, master);
 }
 
-void	HTTPServer::_handleDataReceived(fd_set *master, int *nbytes, int fdmax, int i)
+void	HTTPServer::_handleDataReceived(fd_set *master, int *nbytes, int i)
 {
 	int j;
 
@@ -71,6 +71,8 @@ void	HTTPServer::_handleDataReceived(fd_set *master, int *nbytes, int fdmax, int
     std::cout << "body = " << request.getBody() << std::endl;
 
 
+	HTTPResponse	response("200");
+
 	// response with index.html
 	std::string indexAsString = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Webserv</title>\n</head>\n<body>\n<h1>Webserv</h1>\n<h3>Hello from our web server!</h3>\n</body>\n</html>";
 	std::string responseAsString = "HTTP/1.1 200 OK\nContent-Type: text/html\nConnection: close\nContent-Length: ";
@@ -103,8 +105,6 @@ void	HTTPServer::_handleDataReceived(fd_set *master, int *nbytes, int fdmax, int
 	int bytesSent = send(i, responseAsString.c_str(), strlen(responseAsString.c_str()), 0);
 	if (bytesSent == -1)
 		std::cerr << "error sending data: " << strerror(errno) << std::endl;
-
-	}
 }
 
 int	HTTPServer::start()
@@ -150,7 +150,7 @@ int	HTTPServer::start()
 					if	((nbytes = recv(i, _dataBuffer, sizeof(_dataBuffer), 0)) <= 0) // error or connection closed
 						_closeAndClearSocket(i, nbytes, &master);
 					else // got some data from a client
-						_handleDataReceived(&master, &nbytes, fdmax, i);
+						_handleDataReceived(&master, &nbytes, i);
 				}
 			}
 		}
