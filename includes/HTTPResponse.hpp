@@ -15,18 +15,20 @@ class HTTPResponse
 
 		HTTPResponse( std::string code );
 
-        std::string                        getCode( void );
-        std::string                        getText( void );
-        std::string                        getHTTPVersion( void );
-        std::string                        getBody( void );
-        std::map<std::string, std::string> getHeaders( void );
+                std::string                        getCode( void );
+                std::string                        getText( void );
+                std::string                        getHTTPVersion( void );
+                std::string                        getBody( void );
+                std::map<std::string, std::string> getHeaders( void );
 
 	private:
-        std::string                         _code;
-        std::string                         _text;
-        std::string                         _httpVersion;
-        std::map<std::string, std::string>  _headers;
-        std::string                         _body;
+                std::string                         _code;
+                std::string                         _text;
+                std::string                         _httpVersion;
+                std::map<std::string, std::string>  _headers;
+                std::string                         _body;
 };
+
+std::string     responseToString(HTTPResponse& response);
 
 #endif
