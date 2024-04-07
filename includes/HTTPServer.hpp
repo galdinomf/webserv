@@ -2,8 +2,7 @@
 # define HTTPSERVER_HPP
 
 # include "BindSocket.hpp"
-# include "HTTPResponse.hpp"
-# include "HTTPRequest.hpp"
+# include "MsgProcessor.hpp"
 
 class HTTPServer
 {
