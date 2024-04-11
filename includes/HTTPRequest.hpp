@@ -4,6 +4,7 @@
 # include <string>
 # include <map>
 # include <iostream>
+# include <vector>
 
 class HTTPRequest
 {
@@ -33,6 +34,9 @@ class HTTPRequest
                 std::string                         _httpVersion;
                 std::map<std::string, std::string>  _headers;
                 std::string                         _body;
+
+                static std::vector<std::string> methods_supported;
+                static std::vector<std::string> methodsInit( void );
 };
 
 

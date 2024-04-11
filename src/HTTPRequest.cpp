@@ -87,3 +87,13 @@ void    HTTPRequest::setBody( std::string new_body)
 {
     _body = new_body;
 }
+
+std::vector<std::string> HTTPRequest::methodsInit( void )
+{
+    std::vector<std::string> methods;
+    methods.push_back("GET");
+    methods.push_back("POST");
+    methods.push_back("DELETE");
+
+    return methods;
+}
