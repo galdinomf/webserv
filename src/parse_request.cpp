@@ -1,4 +1,4 @@
-#include "HTTPRequest.hpp"
+#include "MsgProcessor.hpp"
 #include <sstream>
 
 void    add_map_entry(std::string & line, std::map<std::string, std::string>* headers)
@@ -14,8 +14,10 @@ void    parse_first_line(std::string & line, std::string* method, std::string* r
     stream >> *method >> *requestURI >> *version;
 }
 
-HTTPRequest parse_request(std::string request)
+std::string MsgProcessor::parse_request(HTTPRequest& req, std::string request)
 {
+    std::string errorResponse = "";
+
     std::string method;
     std::string requestURI;
     std::string version;
@@ -41,5 +43,8 @@ HTTPRequest parse_request(std::string request)
         body.append(line);
         body.push_back('\n');
     }
-    return (HTTPRequest(method, requestURI, version, headers, body));
+    req.setMethod(method);
+    //return (HTTPRequest(method, requestURI, version, headers, body));
+
+    return errorResponse;
 }

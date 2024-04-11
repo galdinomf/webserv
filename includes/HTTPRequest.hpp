@@ -22,6 +22,11 @@ class HTTPRequest
                 std::string getBody( void );
                 std::map<std::string, std::string> getHeaders( void );
 
+                void    setMethod( std::string );
+                void    setRequestURI( std::string );
+                void    setHTTPVersion( std::string );
+                void    setBody( std::string );
+
 	private:
                 std::string                         _method;
                 std::string                         _requestURI;
@@ -30,6 +35,5 @@ class HTTPRequest
                 std::string                         _body;
 };
 
-HTTPRequest parse_request(std::string line);
 
 #endif

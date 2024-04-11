@@ -4,8 +4,20 @@ std::string MsgProcessor::processRequest( std::string & msg )
 {
     int j;
 
+	HTTPRequest	request;
+	std::string	result = parse_request(request, msg);
+	if (result != "")
+		return result;
+	/* Fazer 'parse_request' receber a mensagem e uma HTTPRequest vazia
+	   por referência.
+	   Fazer 'parse_request' retornar uma string. Essa string será vazia
+	   caso o parsing não econtre problemas, e conterá a mensagem HTTP de
+	   responsta caso haja um problema.
+	   'parse_request' preencherá a HTTPRequest à medida que o parsing for
+	   acontecendo.
+	*/
 
-	HTTPRequest	request(parse_request(std::string(msg)));
+	//HTTPRequest	request(parse_request(std::string(msg)));
 
     std::cout << "method = " << request.getMethod() << std::endl;
     std::cout << "requestURI = " << request.getRequestURI() << std::endl;

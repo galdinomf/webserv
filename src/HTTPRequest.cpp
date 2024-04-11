@@ -67,3 +67,23 @@ std::map<std::string, std::string> HTTPRequest::getHeaders( void )
 {
     return _headers;
 }
+
+void    HTTPRequest::setMethod( std::string method)
+{
+    _method = method;
+}
+
+void    HTTPRequest::setRequestURI( std::string uri)
+{
+    _requestURI = uri;
+}
+
+void    HTTPRequest::setHTTPVersion( std::string new_version)
+{
+    _httpVersion = new_version;
+}
+
+void    HTTPRequest::setBody( std::string new_body)
+{
+    _body = new_body;
+}
