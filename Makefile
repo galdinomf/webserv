@@ -7,7 +7,6 @@ SRCS = main.cpp\
 	   HTTPRequest.cpp\
 	   HTTPResponse.cpp\
 	   parse_request.cpp\
-	   responseToString.cpp\
 	   MsgProcessor.cpp\
 
 OBJ_DIR = obj/
