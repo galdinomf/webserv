@@ -19,7 +19,9 @@ class MsgProcessor
     public:
             static std::string processRequest( std::string& msg);
             static std::string parse_request(HTTPRequest& req, std::string line);
-            static std::string responseToString(HTTPResponse& response);
+            static std::string responseToString(HTTPResponse response);
+
+            static HTTPResponse buildBadRequestResponse();
 };
 
 #endif

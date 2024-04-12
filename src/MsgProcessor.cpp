@@ -30,7 +30,7 @@ std::string MsgProcessor::processRequest( std::string & msg )
 	
     HTTPResponse	response("200");
 
-    std::cout << "msg = " << msg << "(REMOVE ME!!)" << std::endl;
+    // std::cout << "msg = " << msg << "(REMOVE ME!!)" << std::endl;
 	// response with index.html
 	std::string indexAsString = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Webserv</title>\n</head>\n<body>\n<h1>Webserv</h1>\n<h3>Hello from our web server!</h3>\n</body>\n</html>";
 	std::string responseAsString = "HTTP/1.1 200 OK\nContent-Type: text/html\nConnection: close\nContent-Length: ";
@@ -56,16 +56,18 @@ std::string MsgProcessor::processRequest( std::string & msg )
 	responseAsString.append(contentLength);
 	responseAsString.append("\r\n\r\n");
 	responseAsString.append(fileContentsAsString);
-	std::cout << "responseAsString = " << responseAsString << std::endl;
+	// std::cout << "responseAsString = " << responseAsString << std::endl;
 
     return responseAsString;
 }
 
-std::string MsgProcessor::responseToString(HTTPResponse& response)
+std::string MsgProcessor::responseToString(HTTPResponse response)
 {
     // build response's status line
     std::string responseAsString(response.getHTTPVersion());
+    responseAsString.append(" ");
     responseAsString.append(response.getCode());
+    responseAsString.append(" ");
     responseAsString.append(response.getText());
     responseAsString.append("\r\n");
     // append all headers
@@ -83,4 +85,18 @@ std::string MsgProcessor::responseToString(HTTPResponse& response)
     responseAsString.append(response.getBody());
 
     return responseAsString;
+}
+
+HTTPResponse MsgProcessor::buildBadRequestResponse()
+{
+	HTTPResponse	response("400");
+	std::map<std::string, std::string> m;
+
+	m["Content-Type"] = "text/plain";
+	m["Content-Length"] = "11";
+	response.setBody("Bad request");
+	response.setHeaders(m);
+
+	std::cout << "response.getBody() = " << response.getBody() << std::endl;
+	return response;
 }
