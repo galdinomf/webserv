@@ -58,12 +58,23 @@ std::map<std::string, std::string> HTTPResponse::getHeaders( void )
     return _headers;
 }
 
+void	HTTPResponse::setBody( std::string new_body )
+{
+	_body = new_body;
+}
+
+void	HTTPResponse::setHeaders( std::map<std::string, std::string> new_map )
+{
+	_headers = new_map;
+}
+
 std::map<std::string, std::string> HTTPResponse::code_messages = HTTPResponse::codeMessagesInit();
 
 std::map<std::string, std::string> HTTPResponse::codeMessagesInit( void )
 {
 	std::map<std::string, std::string> m;
 	m["200"] = "OK";
+	m["400"] = "Bad Request";
 	//include more status codes and messages here
 	return m;
 }

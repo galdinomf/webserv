@@ -21,6 +21,9 @@ class HTTPResponse
                 std::string                        getBody( void );
                 std::map<std::string, std::string> getHeaders( void );
 
+                void    setBody( std::string );
+                void    setHeaders( std::map<std::string, std::string> );
+
 	private:
                 std::string                         _code;
                 std::string                         _text;
