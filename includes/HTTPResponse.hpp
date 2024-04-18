@@ -36,6 +36,6 @@ class HTTPResponse
 };
 
 
-std::string     responseToString(HTTPResponse& response);
+// std::string     responseToString(HTTPResponse& response);
 
 #endif

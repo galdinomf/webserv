@@ -93,8 +93,8 @@ HTTPResponse MsgProcessor::buildBadRequestResponse()
 	std::map<std::string, std::string> m;
 
 	m["Content-Type"] = "text/plain";
-	m["Content-Length"] = "11";
-	response.setBody("Bad request");
+	m["Content-Length"] = "12";
+	response.setBody("Bad request\n");
 	response.setHeaders(m);
 
 	std::cout << "response.getBody() = " << response.getBody() << std::endl;
