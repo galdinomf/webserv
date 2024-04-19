@@ -13,10 +13,11 @@ bool    methodIsImplemented(std::string method)
     std::vector<std::string> methods;
     std::vector<std::string>::iterator it;
 
-    it = std::find(methods.begin(), methods.end(), method);
-    methods.push_back("GET");
+    // methods.push_back("GET");
 //     methods.push_back("POST");
 //     methods.push_back("DELETE");
+
+    it = std::find(methods.begin(), methods.end(), method);
     return (it != methods.end());
 }
 
