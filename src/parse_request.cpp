@@ -8,6 +8,18 @@ void    add_map_entry(std::string & line, std::map<std::string, std::string>* he
         (*headers)[line.substr(0, pos)] = line.substr(pos + 2, line.size());
 }
 
+bool    methodIsImplemented(std::string method)
+{
+    std::vector<std::string> methods;
+    std::vector<std::string>::iterator it;
+
+    it = std::find(methods.begin(), methods.end(), method);
+//     methods.push_back("GET");
+//     methods.push_back("POST");
+//     methods.push_back("DELETE");
+    return (it != methods.end());
+}
+
 std::string    parse_first_line(std::string & line, std::string* method, std::string* requestURI, std::string* version)
 {
     std::string lastElement;
@@ -18,7 +30,15 @@ std::string    parse_first_line(std::string & line, std::string* method, std::st
         return MsgProcessor::responseToString(MsgProcessor::buildBadRequestResponse());
     stream >> *method >> *requestURI >> *version >> lastElement;
     
-    if ((*method == "") || (*requestURI == "") || (*version == "") || (lastElement != ""))
+    if (!methodIsImplemented(*method))
+    {
+        if (*method == "")
+            return MsgProcessor::responseToString(MsgProcessor::buildBadRequestResponse());
+        else
+            return MsgProcessor::responseToString(MsgProcessor::buildNotImplementedResponse());
+    }
+
+    if ((*requestURI == "") || (*version == "") || (lastElement != ""))
         return MsgProcessor::responseToString(MsgProcessor::buildBadRequestResponse());
     // printf("lastElement = %s\n", lastElement.c_str());
     // printf("lastElement[0] = %d\n", lastElement.c_str()[0]);

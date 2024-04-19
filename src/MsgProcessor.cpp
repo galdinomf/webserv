@@ -97,6 +97,30 @@ HTTPResponse MsgProcessor::buildBadRequestResponse()
 	response.setBody("Bad request\n");
 	response.setHeaders(m);
 
-	std::cout << "response.getBody() = " << response.getBody() << std::endl;
+	// std::cout << "response.getBody() = " << response.getBody() << std::endl;
+	return response;
+}
+
+HTTPResponse MsgProcessor::buildNotImplementedResponse()
+{
+	HTTPResponse	response("501");
+	std::map<std::string, std::string> m;
+
+	m["Content-Type"] = "text/html";
+	m["Content-Length"] = "211";
+	m["Connection"] = "close";
+	response.setBody("\
+	<!DOCTYPE html>\
+	<html>\
+	<head>\
+		<title>501 Not Implemented</title>\
+	</head>\
+	<body>\
+		<h1>Not Implemented</h1>\
+		<p>The server does not support the functionality required to fulfill the request.</p>\
+	</body>\
+	</html>\n");
+	response.setHeaders(m);
+
 	return response;
 }

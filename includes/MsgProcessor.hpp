@@ -2,6 +2,7 @@
 # define MSGPROCESSOR_HPP
 
 # include <string>
+# include <algorithm>
 # include "HTTPResponse.hpp"
 # include "HTTPRequest.hpp"
 
@@ -22,6 +23,7 @@ class MsgProcessor
             static std::string responseToString(HTTPResponse response);
 
             static HTTPResponse buildBadRequestResponse();
+            static HTTPResponse buildNotImplementedResponse();
 };
 
 #endif
