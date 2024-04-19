@@ -124,3 +124,27 @@ HTTPResponse MsgProcessor::buildNotImplementedResponse()
 
 	return response;
 }
+
+HTTPResponse MsgProcessor::buildRequestURITooLongResponse()
+{
+	HTTPResponse	response("414");
+	std::map<std::string, std::string> m;
+
+	m["Content-Type"] = "text/html";
+	m["Content-Length"] = "213";
+	m["Connection"] = "close";
+	response.setBody("\
+	<!DOCTYPE html>\
+	<html>\
+	<head>\
+		<title>414 Request-URI Too Long</title>\
+	</head>\
+	<body>\
+		<h1>Request-URI Too Long</h1>\
+		<p>The requested URL's length exceeds the capacity limit for this server.</p>\
+	</body>\
+	</html>\n");
+	response.setHeaders(m);
+
+	return response;
+}

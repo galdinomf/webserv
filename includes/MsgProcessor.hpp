@@ -24,6 +24,7 @@ class MsgProcessor
 
             static HTTPResponse buildBadRequestResponse();
             static HTTPResponse buildNotImplementedResponse();
+            static HTTPResponse buildRequestURITooLongResponse();
 };
 
 #endif

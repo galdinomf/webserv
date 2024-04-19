@@ -14,7 +14,7 @@ bool    methodIsImplemented(std::string method)
     std::vector<std::string>::iterator it;
 
     it = std::find(methods.begin(), methods.end(), method);
-//     methods.push_back("GET");
+    methods.push_back("GET");
 //     methods.push_back("POST");
 //     methods.push_back("DELETE");
     return (it != methods.end());
@@ -24,6 +24,7 @@ std::string    parse_first_line(std::string & line, std::string* method, std::st
 {
     std::string lastElement;
     std::istringstream stream(line);
+    int uriSize;
 
 
     if (line.substr((strlen(line.c_str()) - 1), 1) != "\r")
@@ -37,6 +38,12 @@ std::string    parse_first_line(std::string & line, std::string* method, std::st
         else
             return MsgProcessor::responseToString(MsgProcessor::buildNotImplementedResponse());
     }
+
+    uriSize = strlen(requestURI->c_str());
+    if ((uriSize < 1) || (requestURI->c_str()[0] != '/'))
+        return MsgProcessor::responseToString(MsgProcessor::buildBadRequestResponse());
+    if (uriSize > 8000)
+        return MsgProcessor::responseToString(MsgProcessor::buildRequestURITooLongResponse());
 
     if ((*requestURI == "") || (*version == "") || (lastElement != ""))
         return MsgProcessor::responseToString(MsgProcessor::buildBadRequestResponse());
