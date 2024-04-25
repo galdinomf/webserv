@@ -1,19 +1,12 @@
 #include "MsgProcessor.hpp"
 #include <sstream>
 
-void    add_map_entry(std::string & line, std::map<std::string, std::string>* headers)
-{
-    std::size_t pos = 0;
-    if ((pos = line.find(": ")) != std::string::npos)
-        (*headers)[line.substr(0, pos)] = line.substr(pos + 2, line.size());
-}
-
 bool    methodIsImplemented(std::string method)
 {
     std::vector<std::string> methods;
     std::vector<std::string>::iterator it;
 
-    // methods.push_back("GET");
+    methods.push_back("GET");
 //     methods.push_back("POST");
 //     methods.push_back("DELETE");
 
@@ -48,12 +41,32 @@ std::string    parse_first_line(std::string & line, std::string* method, std::st
 
     if ((*requestURI == "") || (*version == "") || (lastElement != ""))
         return MsgProcessor::responseToString(MsgProcessor::buildBadRequestResponse());
-    // printf("lastElement = %s\n", lastElement.c_str());
-    // printf("lastElement[0] = %d\n", lastElement.c_str()[0]);
-    // printf("version[8] = %d\n", version->c_str()[8]);
-    // if (lastElement != "\r\n")
-    //     return "400";
 
+    return "";
+}
+
+std::string parseAndAddHeaderEntry(std::string & line, std::map<std::string, std::string> * headers)
+{
+    std::string key;
+    int i;
+
+    if (line[line.size() - 1] != '\r')
+        return MsgProcessor::responseToString(MsgProcessor::buildBadRequestResponse());
+
+    for (i = 0; line[i] != ':'; i++)
+    {
+        if ((line[i] == ' ') || (line[i] == '\0'))
+        return MsgProcessor::responseToString(MsgProcessor::buildBadRequestResponse());
+    }
+
+    key = line.substr(0, i);
+    if ((*headers)[key] != "")
+        return MsgProcessor::responseToString(MsgProcessor::buildBadRequestResponse());
+
+    int start = line.find_first_not_of(" \t\r"); // Find the first non-whitespace character
+    int end = line.find_last_not_of(" \t\r"); // Find the last non-whitespace character
+
+    (*headers)[key] = line.substr(start, end - start + 1);
     return "";
 }
 
@@ -74,13 +87,14 @@ std::string MsgProcessor::parse_request(HTTPRequest& req, std::string request)
     responseCode = parse_first_line(line, &method, &requestURI, &version);
     std::cout << "reponseConde = " << responseCode << std::endl;
     if (responseCode != "")
-        // return (responseToString(HTTPResponse(responseCode)));
         return responseCode;
     while (std::getline(stream, line))
     {
         if (line == "\r")
             break;
-        add_map_entry(line, &headers);
+        responseCode = parseAndAddHeaderEntry(line, &headers);
+        if (responseCode != "")
+            return responseCode;
     }
     while (std::getline(stream, line))
     {
@@ -91,7 +105,6 @@ std::string MsgProcessor::parse_request(HTTPRequest& req, std::string request)
         body.push_back('\n');
     }
     req.setMethod(method);
-    //return (HTTPRequest(method, requestURI, version, headers, body));
 
     return responseCode;
 }
