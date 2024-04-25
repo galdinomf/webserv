@@ -7,7 +7,7 @@ bool    methodIsImplemented(std::string method)
     std::vector<std::string>::iterator it;
 
     methods.push_back("GET");
-//     methods.push_back("POST");
+    methods.push_back("POST");
 //     methods.push_back("DELETE");
 
     it = std::find(methods.begin(), methods.end(), method);
@@ -77,7 +77,7 @@ std::string MsgProcessor::parse_request(HTTPRequest& req, std::string request)
     std::string method;
     std::string requestURI;
     std::string version;
-    std::map<std::string, std::string> headers;
+    std::map<std::string, std::string> headers = req.getHeaders();
     std::string body;
 
     std::istringstream stream(request);
@@ -85,7 +85,6 @@ std::string MsgProcessor::parse_request(HTTPRequest& req, std::string request)
 
     std::getline(stream, line);
     responseCode = parse_first_line(line, &method, &requestURI, &version);
-    std::cout << "reponseConde = " << responseCode << std::endl;
     if (responseCode != "")
         return responseCode;
     while (std::getline(stream, line))
@@ -96,15 +95,21 @@ std::string MsgProcessor::parse_request(HTTPRequest& req, std::string request)
         if (responseCode != "")
             return responseCode;
     }
+
+    if (headers["Host"] == "")
+        return MsgProcessor::responseToString(MsgProcessor::buildBadRequestResponse());
+
     while (std::getline(stream, line))
     {
-        std::cout << "line = " << line << std::endl;
         if (line.empty())
             break;
         body.append(line);
         body.push_back('\n');
     }
     req.setMethod(method);
+    req.setRequestURI(requestURI);
+    req.setHTTPVersion("HTTP/1.1");
+    req.setBody(body);
 
     return responseCode;
 }
