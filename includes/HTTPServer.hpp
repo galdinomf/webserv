@@ -3,6 +3,7 @@
 
 # include "BindSocket.hpp"
 # include "MsgProcessor.hpp"
+# include "Configs.hpp"
 
 class HTTPServer
 {
@@ -23,6 +24,7 @@ class HTTPServer
                 BindSocket  _socket;
                 int         _backLog;
                 char        _dataBuffer[512];
+                Configs     _configs;
 
                 void        _acceptNewConnection(fd_set *master, int *fdmax);
                 void	    _closeAndClearSocket(int i, int nbytes, fd_set *master);
