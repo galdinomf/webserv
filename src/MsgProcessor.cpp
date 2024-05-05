@@ -1,5 +1,25 @@
 #include "MsgProcessor.hpp"
 
+MsgProcessor::MsgProcessor(Configs& conf) : _serverConfigs(conf)
+{
+
+}
+
+std::string MsgProcessor::workOnRequestAndGetResponse(HTTPRequest& req, Configs& conf)
+{
+	std::string method = req.getMethod();
+	if (false) // replace with test for CGI request
+	{
+		// code related to incoming CGI request
+	}
+	else
+	{
+		if (method == "GET")
+			return workOnGETMethod(req, conf); // o problema começa aqui
+	}
+	return "";
+}
+
 std::string MsgProcessor::processRequest( std::string & msg )
 {
     int j;
@@ -16,6 +36,8 @@ std::string MsgProcessor::processRequest( std::string & msg )
 	   'parse_request' preencherá a HTTPRequest à medida que o parsing for
 	   acontecendo.
 	*/
+
+	return workOnRequestAndGetResponse(request, _serverConfigs);
 
 	//HTTPRequest	request(parse_request(std::string(msg)));
 
@@ -146,5 +168,45 @@ HTTPResponse MsgProcessor::buildRequestURITooLongResponse()
 	</html>\n");
 	response.setHeaders(m);
 
+	return response;
+}
+
+HTTPResponse MsgProcessor::buildNotFoundResponse()
+{
+	HTTPResponse	response("404");
+	std::map<std::string, std::string> m;
+
+	m["Content-Type"] = "text/html";
+	m["Content-Length"] = "168";
+	m["Connection"] = "close";
+	response.setBody("\
+	<!DOCTYPE html>\
+	<html>\
+	<head>\
+		<title>404 Not Found</title>\
+	</head>\
+	<body>\
+		<h1>Not Found</h1>\
+		<p>The requested URL was not found on this server.</p>\
+	</body>\
+	</html>\n");
+	response.setHeaders(m);
+	return response;
+}
+
+HTTPResponse MsgProcessor::buildOKResponse( std::string& content)
+{
+	HTTPResponse	response("200");
+	std::map<std::string, std::string> m;
+
+	int bodyLength = content.size();
+	std::stringstream ss;
+	ss << bodyLength;
+
+	m["Content-Type"] = "text/html";
+	m["Connection"] = "close";
+	m["Content-Length"] = ss.str();
+	response.setBody(content);
+	response.setHeaders(m);
 	return response;
 }

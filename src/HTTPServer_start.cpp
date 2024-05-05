@@ -55,7 +55,8 @@ void	HTTPServer::_handleDataReceived(fd_set *master, int *nbytes, int i)
 		return;
 	}
 
-	std::string responseAsString = MsgProcessor::processRequest(requestAsString);
+	MsgProcessor processor(_configs);
+	std::string responseAsString = processor.processRequest(requestAsString);
 
 	int bytesSent = send(i, responseAsString.c_str(), strlen(responseAsString.c_str()), 0);
 	if (bytesSent == -1)

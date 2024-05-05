@@ -8,6 +8,8 @@ SRCS = main.cpp\
 	   HTTPResponse.cpp\
 	   parse_request.cpp\
 	   MsgProcessor.cpp\
+	   MsgProcessor2.cpp\
+	   Configs.cpp\
 
 OBJ_DIR = obj/
 SRC_DIR = src/
