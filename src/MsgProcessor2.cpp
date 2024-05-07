@@ -4,7 +4,7 @@ std::string MsgProcessor::getRequestedFile(std::string requestURI, Configs& conf
 {
     std::string filePath = conf.rootDir;
     filePath.append(std::string(requestURI));
-
+    std::cout << "filePath = " << filePath << std::endl;
     std::string fileContentsAsString;
     char buffer[256];
 	std::ifstream file(filePath.c_str());
@@ -32,8 +32,82 @@ std::string MsgProcessor::workOnGETMethod(HTTPRequest& req, Configs& conf)
     if (requestURI.c_str()[strlen(requestURI.c_str()) - 1] == '/')
     {
         // code related to directory being requested
-        return getRequestedFile("/index.html", conf);
+        return workOnDirectoryRequest(requestURI, conf);
     }
     else
         return getRequestedFile(requestURI, conf);
+}
+
+std::string MsgProcessor::workOnDirectoryRequest(std::string& requestURI, Configs& conf)
+{
+    std::string result;
+
+    std::string filePath = conf.rootDir;
+    filePath.append(std::string(requestURI));
+
+    DIR* dir = opendir(filePath.c_str()); // returns a pointer to a directory stream
+    if (dir == NULL) // directory could not be opened
+        return  responseToString(buildNotFoundResponse());
+    
+    chdir(filePath.c_str());
+    std::string defaultFileName = conf.getDefaultFileNameForDirectory(requestURI);
+    bool        dirListingOn = conf.directoryListingEnabled(requestURI);
+
+    if (defaultFileName != "")
+        result = getRequestedFile(requestURI.append(defaultFileName), conf);
+    else
+    {
+        if (dirListingOn)
+            result = writeDirectoryListing(dir);
+        else
+            result =  responseToString(buildNotFoundResponse());
+    }
+    closedir(dir);
+    return result;
+}
+
+std::string MsgProcessor::writeDirectoryListing(DIR* dir)
+{
+    std::stringstream html;
+    html << "<!DOCTYPE html>\n";
+    html << "<html>\n<head>";
+    html << "<style>table{width: 100%;}</style>";
+    html << "</head>\n<body>\n";
+    html << "<table>";
+    html << "<a href=\"../\"> ../</a>\n";
+
+    struct dirent* entry;
+    struct stat fileInfo;
+
+    while((entry = readdir(dir)) != NULL)
+    {
+        if ((std::strcmp(entry->d_name, ".") != 0) && (std::strcmp(entry->d_name, "..") != 0))
+        {
+            html << "<tr>";
+            html << "<td>";
+            html << "<a href=\"" << entry->d_name; // << "\">" << entry->d_name;
+            if (entry->d_type == DT_DIR)
+            {
+                html << "/\">" << entry->d_name << "/";
+                html << "</td>";
+                html << "</a>";
+            }
+            else if (entry->d_type == DT_REG)
+            {
+    std::cout << "entry->d_name = " << entry->d_name << std::endl;
+                html << "\">" << entry->d_name;
+                if (stat(entry->d_name, &fileInfo))
+                    continue;
+                html << "</td>";
+                html << "</a>";
+                html << "<td>" << fileInfo.st_size << "</td>";
+                html << "<td>" << ctime(&fileInfo.st_mtime) << "</td>";
+            }
+            html << "</tr>";
+        }
+    }
+    html << "</table>";
+    html << "</body>\n</html>";
+    std::string htmlString = html.str();
+        return  responseToString(buildOKResponse(htmlString));
 }

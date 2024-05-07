@@ -6,12 +6,15 @@
 # include "HTTPResponse.hpp"
 # include "HTTPRequest.hpp"
 # include "Configs.hpp"
+# include <dirent.h>
+# include <cstring>
+# include <sstream>
+# include <sys/stat.h>
+# include<unistd.h>
 
 # include <iostream> // MAY BE REMOVED LATER
 # include <ostream>  // MAY BE REMOVED LATER
-# include <cstring>  // MAY BE REMOVED LATER
 #include <fstream> // may be moved to another file
-#include <sstream> // may be moved to another file
 
 class MsgProcessor
 {
@@ -28,6 +31,8 @@ class MsgProcessor
 
             std::string workOnGETMethod(HTTPRequest&, Configs&);
             std::string getRequestedFile(std::string requestURI, Configs& conf);
+            std::string workOnDirectoryRequest(std::string& requestURI, Configs& conf);
+            std::string writeDirectoryListing(DIR* dir);
 
             static HTTPResponse buildBadRequestResponse();
             static HTTPResponse buildNotImplementedResponse();

@@ -25,3 +25,21 @@ Configs::~Configs( void )
 {
 	std::cout << "Configs destructor called." << std::endl;
 }
+
+std::string	Configs::getDefaultFileNameForDirectory( std::string& dir )
+{
+	dir.c_str(); // REMOVE THIS LINE
+	//This function must be completed.
+	//It must receive a route and return its default file name.
+	//If no default files are set, the function must return an empty string.
+	return "index.html";	//THIS IS A MOCK
+}
+
+bool	Configs::directoryListingEnabled( std::string& dir )
+{
+	dir.c_str(); // REMOVE THIS LINE
+	//This function must be completed.
+	//It must receive a route for a directory and check if its listing is enabled.
+	//The return value is false by default.
+	return false; //THIS IS A MOCK
+}

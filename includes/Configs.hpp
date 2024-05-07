@@ -14,6 +14,9 @@ class Configs
 
 		const std::string	rootDir;
 
+		std::string	getDefaultFileNameForDirectory( std::string& );
+		bool		directoryListingEnabled( std::string& );
+
 	private:
 		// private attributes here
 };
