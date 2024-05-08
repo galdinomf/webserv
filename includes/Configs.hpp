@@ -16,6 +16,7 @@ class Configs
 
 		std::string	getDefaultFileNameForDirectory( std::string& );
 		bool		directoryListingEnabled( std::string& );
+		bool		methodAllowedForRoute( std::string& dir , std::string method);
 
 	private:
 		// private attributes here

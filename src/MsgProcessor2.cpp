@@ -1,14 +1,16 @@
+//This file contains the methods related to processing GET requests
+
 #include "MsgProcessor.hpp"
 
 std::string MsgProcessor::getRequestedFile(std::string requestURI, Configs& conf)
 {
     std::string filePath = conf.rootDir;
     filePath.append(std::string(requestURI));
-    std::cout << "filePath = " << filePath << std::endl;
     std::string fileContentsAsString;
     char buffer[256];
 	std::ifstream file(filePath.c_str());
     int j;
+    
 	if (!file.is_open())
         return  responseToString(buildNotFoundResponse());
 	else
@@ -28,12 +30,10 @@ std::string MsgProcessor::workOnGETMethod(HTTPRequest& req, Configs& conf)
     unsigned int i = requestURI.find("?");
     if (i != std::string::npos)
         requestURI = requestURI.substr(0, i);
-    std::cout << "requestURI = " << requestURI << std::endl;
+    if (false) //(!conf.methodAllowedForRoute(requestURI, "GET")) MOCK
+        return responseToString(buildForbiddenResponse());
     if (requestURI.c_str()[strlen(requestURI.c_str()) - 1] == '/')
-    {
-        // code related to directory being requested
         return workOnDirectoryRequest(requestURI, conf);
-    }
     else
         return getRequestedFile(requestURI, conf);
 }
@@ -94,7 +94,6 @@ std::string MsgProcessor::writeDirectoryListing(DIR* dir)
             }
             else if (entry->d_type == DT_REG)
             {
-    std::cout << "entry->d_name = " << entry->d_name << std::endl;
                 html << "\">" << entry->d_name;
                 if (stat(entry->d_name, &fileInfo))
                     continue;

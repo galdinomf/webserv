@@ -43,3 +43,14 @@ bool	Configs::directoryListingEnabled( std::string& dir )
 	//The return value is false by default.
 	return false; //THIS IS A MOCK
 }
+
+bool	Configs::methodAllowedForRoute( std::string& dir , std::string method)
+{
+	dir.c_str(); // REMOVE THIS LINE
+	method.c_str(); // REMOVE THIS LINE
+	//This function must be completed.
+	//It must receive a route and a method, 
+	//and check if the method is allowed for the given route.
+	//The return value is true for GET and false for POST and DELETE by default.
+	return false; //THIS IS A MOCK
+}
