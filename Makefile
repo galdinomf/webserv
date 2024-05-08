@@ -9,6 +9,7 @@ SRCS = main.cpp\
 	   parse_request.cpp\
 	   MsgProcessor.cpp\
 	   MsgProcessor2.cpp\
+	   MsgProcessor3.cpp\
 	   Configs.cpp\
 
 OBJ_DIR = obj/

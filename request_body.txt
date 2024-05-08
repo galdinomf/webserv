@@ -1,4 +1,0 @@
-This is the first line of the body.
-This is the second line of the body.
-Third line.
-

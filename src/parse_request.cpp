@@ -7,8 +7,8 @@ bool    methodIsImplemented(std::string method)
     std::vector<std::string>::iterator it;
 
     methods.push_back("GET");
-    methods.push_back("POST");
-//     methods.push_back("DELETE");
+    // methods.push_back("POST");
+    methods.push_back("DELETE");
 
     it = std::find(methods.begin(), methods.end(), method);
     return (it != methods.end());
