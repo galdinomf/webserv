@@ -220,6 +220,29 @@ HTTPResponse MsgProcessor::buildNotFoundResponse()
 	return response;
 }
 
+HTTPResponse MsgProcessor::buildConflictResponse()
+{
+	HTTPResponse	response("409");
+	std::map<std::string, std::string> m;
+
+	m["Content-Type"] = "text/html";
+	m["Content-Length"] = "168";
+	m["Connection"] = "close";
+	response.setBody("\
+	<!DOCTYPE html>\
+	<html>\
+	<head>\
+		<title>409 Conflict</title>\
+	</head>\
+	<body>\
+		<h1>Conflict</h1>\
+		<p>A conflict occurred while processing the request.</p>\
+	</body>\
+	</html>\n");
+	response.setHeaders(m);
+	return response;
+}
+
 HTTPResponse MsgProcessor::buildOKResponse( std::string& content)
 {
 	HTTPResponse	response("200");
