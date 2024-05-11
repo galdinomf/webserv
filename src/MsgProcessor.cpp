@@ -18,6 +18,8 @@ std::string MsgProcessor::workOnRequestAndGetResponse(HTTPRequest& req, Configs&
 			return workOnGETMethod(req, conf);
 		if (method == "DELETE")
 			return workOnDELETEMethod(req, conf);
+		if (method == "POST")
+			return workOnPOSTMethod(req, conf);
 
 	}
 	return "";
@@ -26,7 +28,9 @@ std::string MsgProcessor::workOnRequestAndGetResponse(HTTPRequest& req, Configs&
 std::string MsgProcessor::processRequest( std::string & msg )
 {
     //int j;
-
+	std::cout << "-------------- BEGIN OF MSG --------------" << std::endl;
+std::cout << "msg = " << msg << std::endl;
+	std::cout << "-------------- END OF MSG --------------" << std::endl;
 	HTTPRequest	request;
 	std::string	result = parse_request(request, msg);
 	if (result != "")
@@ -257,6 +261,18 @@ HTTPResponse MsgProcessor::buildOKResponse( std::string& content)
 	m["Content-Length"] = ss.str();
 	response.setBody(content);
 	response.setHeaders(m);
+	return response;
+}
+
+HTTPResponse MsgProcessor::buildCreatedResponse( std::string& location )
+{
+	HTTPResponse	response("201");
+	// std::map<std::string, std::string> m;
+location.c_str();
+	// m["Connection"] = "close";
+	// m["Location"] = location;
+	// response.setHeaders(m);
+	std::cout << "response.getBody()" << response.getBody() << std::endl;
 	return response;
 }
 

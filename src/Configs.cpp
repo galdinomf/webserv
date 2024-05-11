@@ -1,7 +1,8 @@
 #include "Configs.hpp"
 
-Configs::Configs( void ) : rootDir("/home/moacir/42_projects/webserv/project") // replace this with value coming from config file
+Configs::Configs( void ) : rootDir("/home/moacir/42_projects/webserv/project") // MOCK
 {
+	uploadDir = ""; // MOCK
 	std::cout << "Configs default constructor called." << std::endl;
 }
 

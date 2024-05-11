@@ -10,6 +10,7 @@ SRCS = main.cpp\
 	   MsgProcessor.cpp\
 	   MsgProcessor2.cpp\
 	   MsgProcessor3.cpp\
+	   MsgProcessor4.cpp\
 	   Configs.cpp\
 
 OBJ_DIR = obj/

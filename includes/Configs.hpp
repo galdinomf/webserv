@@ -13,6 +13,7 @@ class Configs
 		~Configs( void );
 
 		const std::string	rootDir;
+		std::string	uploadDir;
 
 		std::string	getDefaultFileNameForDirectory( std::string& );
 		bool		directoryListingEnabled( std::string& );

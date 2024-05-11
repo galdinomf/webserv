@@ -7,7 +7,7 @@ bool    methodIsImplemented(std::string method)
     std::vector<std::string>::iterator it;
 
     methods.push_back("GET");
-    // methods.push_back("POST");
+    methods.push_back("POST");
     methods.push_back("DELETE");
 
     it = std::find(methods.begin(), methods.end(), method);
@@ -30,7 +30,10 @@ std::string    parse_first_line(std::string & line, std::string* method, std::st
         if (*method == "")
             return MsgProcessor::responseToString(MsgProcessor::buildBadRequestResponse());
         else
+        {
+            std::cout << "*method = " << *method << std::endl;
             return MsgProcessor::responseToString(MsgProcessor::buildNotImplementedResponse());
+        }
     }
 
     uriSize = strlen(requestURI->c_str());

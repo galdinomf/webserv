@@ -45,6 +45,7 @@ void	HTTPServer::_handleDataReceived(fd_set *master, int *nbytes, int i)
 
 	while	(((unsigned int) *nbytes == sizeof(_dataBuffer)) && ((*nbytes = recv(i, _dataBuffer, sizeof(_dataBuffer), 0)) > 0))
 		requestAsString.append(_dataBuffer, *nbytes);
+	requestAsString.append(_dataBuffer, *nbytes);
 	
 	for (j = 0; (unsigned int) j < sizeof(_dataBuffer); j++)
 		_dataBuffer[j] = 0;

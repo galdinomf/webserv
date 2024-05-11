@@ -38,7 +38,11 @@ class MsgProcessor
             std::string workOnDELETEMethod(HTTPRequest&, Configs&);
             std::string deleteRequestedFile(std::string requestURI, Configs& conf);
             std::string workOnDeleteDirectory(std::string& requestURI, Configs& conf);
-            
+
+            /////////////////// POST METHOD ///////////////////
+            std::string workOnPOSTMethod(HTTPRequest&, Configs&);
+            std::string uploadFile(HTTPRequest&, std::string&, std::string& );
+
 
             static HTTPResponse buildBadRequestResponse();
             static HTTPResponse buildNotImplementedResponse();
@@ -49,6 +53,7 @@ class MsgProcessor
             static HTTPResponse buildInternalErrorResponse();
             static HTTPResponse buildNoContentResponse();
             static HTTPResponse buildConflictResponse();
+            static HTTPResponse buildCreatedResponse( std::string& );
 };
 
 #endif
